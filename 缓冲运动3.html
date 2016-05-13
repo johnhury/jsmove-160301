@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		body,ul,li{padding: 0;margin: 0;}
+		#oDiv{position:relative;width: 200px;height: 200px;background: red;left:200px;top:200px;}
+		.hot{ position: absolute;width:30px;text-align: center;padding:10px 0;background: blue;color: #fff;top:72px;left:200px;}
+	</style>
+</head>
+<body>
+	<div id="oDiv">
+		<div class="hot" id="hot">热点</div>
+	</div>
+</body>
+<script>
+	window.onload=function () {
+		var oDiv=document.getElementById('oDiv');
+		oDiv.onmouseover=function(){
+			var that=this;
+			startMove(that,'width',300,function () {
+				startMove(that,'opacity',30)
+			});
+		}
+		oDiv.onmouseout=function(){
+			var that=this;
+			startMove(that,'width',200,function () {
+				startMove(that,'opacity',100)
+			});
+		}
+	}
+	var timer=null,iSpeed;
+	function startMove(obj,attr,iTarget,fn){
+		clearInterval(obj.timer);
+		obj.timer = setInterval(function(){
+			if(attr=='opacity'){
+				var obj_w=parseFloat(getStyle(obj,attr))*100;
+			}else{
+				var obj_w=parseInt(getStyle(obj,attr));
+			}
+			//缓冲速度
+			if(obj_w<iTarget){
+				obj.iSpeed=Math.ceil((iTarget-obj_w)/8);
+			}else{
+				obj.iSpeed=Math.floor((iTarget-obj_w)/8);
+			}
+			//达到终点，清除定时器
+			if(obj_w==iTarget){
+				clearInterval(obj.timer);
+				if(fn){
+					fn();
+				}
+			}
+			else{
+				if(attr=='opacity'){
+					obj.style[attr]=(obj_w+obj.iSpeed)/100;
+				}else{
+				obj.style[attr]=obj_w+obj.iSpeed+'px';
+				}
+			}
+		},30);		
+	}
+	function getStyle(obj,attr){
+		if(obj.CurrentStyle){
+			return obj.CurrentStyle[attr];
+		}
+		else
+		{
+			return window.getComputedStyle(obj,false)[attr];
+		}
+	}
+</script>
+</html>

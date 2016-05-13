@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.div{width: 100px;height: 100px;border: 1px solid #000;background: red;}
+	</style>
+</head>
+<body>
+	<div class="div" id="oDiv"></div>
+</body>
+<script>
+	var oDiv = document.getElementById('oDiv');
+	var timer = null;
+	oDiv.onmouseover=function(){
+		clearInterval(timer);
+		timer=setInterval(function(){
+			// oDiv.style.width=parseInt(getStyle(oDiv,'width'))-1+'px';
+			oDiv.style.width=oDiv.offsetWidth-1+'px';
+		},30);
+	}
+	function getStyle(obj,attr){
+		if(obj.CurrentStyle){
+			return obj.CurrentStyle[attr];
+		}
+		else
+		{
+			return window.getComputedStyle(obj,false)[attr];
+		}
+	}
+</script>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	body,ul,li{padding: 0;margin: 0;list-style-type: none;}
+	#oUl{margin:10px auto;}
+	#oUl li{background: red;margin:5px;width: 100px;height: 50px;border:1px solid #ccc;}
+	</style>
+
+</head>
+<body>
+	<ul id="oUl">
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+</body>
+	<script>
+		window.onload=function(){
+			var olis=document.getElementById('oUl').getElementsByTagName('li');
+			for(var i=0 ; i<olis.length; i++){
+				olis[i].index=i;
+				olis[i].onmouseover=function(){
+					startMove(this,'opacity',10);
+				}
+				olis[i].onmouseout=function(){
+					startMove(this,'opacity',100);
+				}
+			}
+		}
+	function startMove(obj,attr,iTarget){
+		clearInterval(obj.timer);
+		obj.timer = setInterval(function(){
+			if(attr=='opacity'){
+				obj.obj_w=parseFloat(getStyle(obj,attr))*100;
+			}else{
+				obj.obj_w=parseInt(getStyle(obj,attr));
+			}
+			//缓冲速度
+			if(obj.obj_w<iTarget){
+				obj.iSpeed=Math.ceil((iTarget-obj.obj_w)/8);
+			}else{
+				obj.iSpeed=Math.floor((iTarget-obj.obj_w)/8);
+			}
+			//达到终点，清除定时器
+			if(obj.obj_w==iTarget){
+				clearInterval(obj.timer);
+			}
+			else{
+				if(attr=='opacity'){
+					obj.style[attr]=(obj.obj_w+obj.iSpeed)/100;
+				}else{
+				obj.style[attr]=obj.obj_w+obj.iSpeed+'px';
+				}
+			}
+		},30);		
+	}
+	function getStyle(obj,attr){
+		if(obj.CurrentStyle){
+			return obj.CurrentStyle[attr];
+		}
+		else
+		{
+			return window.getComputedStyle(obj,false)[attr];
+		}
+	}
+	</script>
+</html>

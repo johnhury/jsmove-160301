@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		body,ul,li{padding: 0;margin: 0;}
+		#oDiv{position:relative;width: 200px;height: 200px;background: red;top:0;opacity: 1;
+		filter: alpha(opacity=100);}
+		.hot{ position: absolute;width:30px;text-align: center;padding:10px 0;background: blue;color: #fff;top:72px;left:200px;}
+	</style>
+</head>
+<body>
+	<div id="oDiv">
+		<div class="hot" id="hot">热点</div>
+	</div>
+</body>
+<script>
+	window.onload=function () {
+		var oDiv=document.getElementById('oDiv');
+		oDiv.onmouseover=function(){
+			startMove(this,30);
+		}
+		oDiv.onmouseout=function(){
+			startMove(this,100);
+		}
+	}
+	var timer=null,iSpeed;
+	var obj_alpha=100;
+	function startMove(obj,iTarget){
+		clearInterval(timer);
+		timer = setInterval(function(){	
+			 iSpeed=obj_alpha>iTarget?-10:10;
+			if(obj_alpha==iTarget){
+				clearInterval(timer);
+			}
+			else{
+				obj_alpha+=iSpeed;
+				obj.style.opacity=obj_alpha/100;
+			}
+		},30);		
+	}
+	function getStyle(obj,attr){
+		if(obj.CurrentStyle){
+			return obj.CurrentStyle[attr];
+		}
+		else
+		{
+			return window.getComputedStyle(obj,false)[attr];
+		}
+	}
+</script>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		body,ul,li{padding: 0;margin: 0;}
+		#oDiv{position:relative;width: 200px;height: 200px;background: red;left:-200px;top:0;}
+		.hot{ position: absolute;width:30px;text-align: center;padding:10px 0;background: blue;color: #fff;top:72px;left:200px;}
+	</style>
+</head>
+<body>
+	<div id="oDiv">
+		<div class="hot" id="hot">热点</div>
+	</div>
+</body>
+<script>
+	window.onload=function () {
+		var oDiv=document.getElementById('oDiv');
+		oDiv.onmouseover=function(){
+			startMove(this,0);
+		}
+		oDiv.onmouseout=function(){
+			startMove(this,-200);
+		}
+	}
+	var timer=null;
+	function startMove(obj,iTarget){
+		clearInterval(timer);
+		timer = setInterval(function(){
+			iSpeed=obj.offsetLeft>iTarget?-10:10;
+			if(obj.offsetLeft==iTarget){
+				clearInterval(timer);
+			}
+			else{
+				obj.style.left=obj.offsetLeft+iSpeed+'px';
+			}
+		},30);		
+	}
+
+</script>
+</html>
